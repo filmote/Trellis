@@ -4,18 +4,6 @@
 #define MODE_SELECTION 1
 #define MODE_PLAY_COMPUTER 3
 
-// byte board[3][3];
-
-// byte whosTurn = 1;
-// byte playerX = 1;
-// byte playerY = 1;
-// byte showWinner = 0;
-// byte player1Counter = 0;
-// byte player2Counter = 0;
-
-// byte menuSelection = 1;
-// byte gameMode = MODE_SELECTION;
-
 // ---------------------------------------------------------------------------------------------
 
 void checkForWinner() {
@@ -101,11 +89,11 @@ void drawBoard() {
 
     // Draw existing noughts and crosses ..
 
-    for (int x = 0; x < 3; x = x + 1) {
+    for (int y = 0; y < 3; y = y + 1) {
 
-        for (int y = 0; y < 3; y = y + 1) {
+        for (int x = 0; x < 3; x = x + 1) {
 
-            uint8_t key = (y * 8) + x + 6;
+            uint8_t key = (y * 8) + x + 5;
 
             trellis.setPixelColor(key, 0x000000);
 
@@ -148,27 +136,25 @@ void clearBoard() {
 
 // ---------------------------------------------------------------------------------------------
 
-void loop_TicTacToe() {
-
-    trellis.tick();
+void loop_TicTacToe(uint8_t key) {
 
     if (ticTacToeVars.gameMode == Mode_TicTacToe::Selection) {
-        ticTacToeVars.whosTurn = 1;
-        ticTacToeVars.player1Counter = 0;
-        ticTacToeVars.player2Counter = 0;
+        ticTacToeVars.reset();
         clearBoard();
         ticTacToeVars.gameMode = Mode_TicTacToe::PlayComputer;
     }
 
     if (ticTacToeVars.gameMode == Mode_TicTacToe::PlayComputer) {
         loopPlayComputer();
-
     }
 
 }
 
 
+const uint8_t highlights[] = { 0, 1, 2, 3, 4, 12, 20, 28, 29, 30, 31, 24, 25, 26, 27, 28, 29, 30, 31 };
+
 void loopPlayComputer() {
+
 
     byte someoneHadATurn = 0;
 
@@ -176,82 +162,95 @@ void loopPlayComputer() {
 
     drawBoard();
 
+    for (uint8_t i = 0; i < 19; i++) {
+        if (ticTacToeVars.showWinner == 0 || i != 4) trellis.setPixelColor(highlights[i], 0x000000);
+    }
+
+    for (uint8_t i = 0; i < (ticTacToeVars.player1Counter < 4 ? ticTacToeVars.player1Counter : 4); i++) {
+        trellis.setPixelColor(8 + i, 0x00007F);
+    }
+
+    for (uint8_t i = 0; i < (ticTacToeVars.player2Counter < 4 ? ticTacToeVars.player2Counter : 4); i++) {
+        trellis.setPixelColor(16 + i, 0x007F00);
+    }
+
+
     // Handle players buttons ..
 
     if (ticTacToeVars.showWinner == 0) {
 
-        while (trellis.available()) {
 
-            keypadEvent e = trellis.read();
+        // draw Highlihgts ..
 
-            // Handle key presses ..
+        ticTacToeVars.highlight++;
+        if (ticTacToeVars.highlight == 19) ticTacToeVars.highlight = 0;
 
-            if (e.bit.EVENT == KEY_JUST_PRESSED) {
 
-                uint8_t key = e.bit.KEY;
+        trellis.setPixelColor(highlights[ticTacToeVars.highlight], 0x101010);
 
-                switch (key) {
 
-                    case 5:
-                        ticTacToeVars.playerX = 0;
-                        ticTacToeVars.playerY = 0;
-                        break;
+        if (key < 255) {
+            
+            switch (key) {
 
-                    case 6:
-                        ticTacToeVars.playerX = 1;
-                        ticTacToeVars.playerY = 0;
-                        break;
+                case 5:
+                    ticTacToeVars.playerX = 0;
+                    ticTacToeVars.playerY = 0;
+                    break;
 
-                    case 7:
-                        ticTacToeVars.playerX = 2;
-                        ticTacToeVars.playerY = 0;
-                        break;
+                case 6:
+                    ticTacToeVars.playerX = 1;
+                    ticTacToeVars.playerY = 0;
+                    break;
 
-                    case 13:
-                        ticTacToeVars.playerX = 0;
-                        ticTacToeVars.playerY = 1;
-                        break;
+                case 7:
+                    ticTacToeVars.playerX = 2;
+                    ticTacToeVars.playerY = 0;
+                    break;
 
-                    case 14:
-                        ticTacToeVars.playerX = 1;
-                        ticTacToeVars.playerY = 1;
-                        break;
+                case 13:
+                    ticTacToeVars.playerX = 0;
+                    ticTacToeVars.playerY = 1;
+                    break;
 
-                    case 15:
-                        ticTacToeVars.playerX = 2;
-                        ticTacToeVars.playerY = 1;
-                        break;
+                case 14:
+                    ticTacToeVars.playerX = 1;
+                    ticTacToeVars.playerY = 1;
+                    break;
 
-                    case 21:
-                        ticTacToeVars.playerX = 0;
-                        ticTacToeVars.playerY = 2;
-                        break;
+                case 15:
+                    ticTacToeVars.playerX = 2;
+                    ticTacToeVars.playerY = 1;
+                    break;
 
-                    case 22:
-                        ticTacToeVars.playerX = 1;
-                        ticTacToeVars.playerY = 2;
-                        break;
+                case 21:
+                    ticTacToeVars.playerX = 0;
+                    ticTacToeVars.playerY = 2;
+                    break;
 
-                    case 23:
-                        ticTacToeVars.playerX = 2;
-                        ticTacToeVars.playerY = 2;
-                        break;
-                        
-                }
+                case 22:
+                    ticTacToeVars.playerX = 1;
+                    ticTacToeVars.playerY = 2;
+                    break;
 
-                if (ticTacToeVars.board[ticTacToeVars.playerX][ticTacToeVars.playerY] == 0) {
+                case 23:
+                    ticTacToeVars.playerX = 2;
+                    ticTacToeVars.playerY = 2;
+                    break;
+                    
+            }
 
-                    ticTacToeVars.board[ticTacToeVars.playerX][ticTacToeVars.playerY] = ticTacToeVars.whosTurn;
-                    someoneHadATurn = 1;
+            if (ticTacToeVars.board[ticTacToeVars.playerX][ticTacToeVars.playerY] == 0) {
 
-                }
-                else {
+                ticTacToeVars.board[ticTacToeVars.playerX][ticTacToeVars.playerY] = ticTacToeVars.whosTurn;
+                someoneHadATurn = 1;
 
-                    // arduboy.digitalWriteRGB(RED_LED, RGB_ON);
-                    // arduboy.delayShort(100);
-                    // arduboy.digitalWriteRGB(RED_LED, RGB_OFF);
-                }
+            }
+            else {
 
+                // arduboy.digitalWriteRGB(RED_LED, RGB_ON);
+                // arduboy.delayShort(100);
+                // arduboy.digitalWriteRGB(RED_LED, RGB_OFF);
             }
 
         }
@@ -500,32 +499,19 @@ void loopPlayComputer() {
             // Draw
         }
 
-        while (trellis.available()) {
+        if (key == 4) {
 
-            keypadEvent e = trellis.read();
+            ticTacToeVars.showWinner = 0;
+            trellis.setPixelColor(4, 0x000000);
+            clearBoard();
 
-            // Handle key presses ..
+            // The loser can start the next game ..
 
-            if (e.bit.EVENT == KEY_JUST_PRESSED) {
-
-                uint8_t key = e.bit.KEY;
-
-                if (key == 4) {
-
-                    ticTacToeVars.showWinner = 0;
-                    clearBoard();
-
-                    // The loser can start the next game ..
-
-                    if (ticTacToeVars.whosTurn == 1) {
-                        ticTacToeVars.whosTurn = 2;
-                    }
-                    else {
-                        ticTacToeVars.whosTurn = 1;
-                    }
-
-                }
-
+            if (ticTacToeVars.whosTurn == 1) {
+                ticTacToeVars.whosTurn = 2;
+            }
+            else {
+                ticTacToeVars.whosTurn = 1;
             }
 
         }

@@ -50,7 +50,7 @@
             "cStandard": "c11",
             "cppStandard": "c++11",
             "defines": [
-                "__SKETCH_NAME__=\"\"\"sketch_nov30a.ino\"\"\"",
+                "__SKETCH_NAME__=\"\"\"Trellis.ino\"\"\"",
                 "F_CPU=120000000L",
                 "ARDUINO=10813",
                 "ARDUINO_TRELLIS_M4",
