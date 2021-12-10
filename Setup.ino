@@ -24,6 +24,7 @@ void loop_Setup() {
    if (key == 2 || key == 10 || key == 17 || key == 18 || key == 19 || key == 26) {
 
        if (brightness > 5) brightness = brightness - 5;
+       EEPROM.put(storedAddress, brightness);
        trellis.setBrightness(brightness);
 
    }
@@ -32,6 +33,7 @@ void loop_Setup() {
    if (key == 5 || key == 12 || key == 13 || key == 14 || key == 21 || key == 29) {
 
        if (brightness < 120) brightness = brightness + 5;
+       EEPROM.put(storedAddress, brightness);
        trellis.setBrightness(brightness);
 
    }

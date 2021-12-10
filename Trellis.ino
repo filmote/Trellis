@@ -1,7 +1,7 @@
 #include "Adafruit_NeoTrellisM4.h"
 #include "Keyboard.h"
 #include "Enums.h"
-
+#include <FlashStorage_SAMD.h>
 
 Adafruit_NeoTrellisM4 trellis = Adafruit_NeoTrellisM4();
 RGB lit_keys[32];
@@ -13,8 +13,16 @@ Mode mode = Mode::Startup;
 Mode nextMode = Mode::Photoshop;
 uint8_t key = 255;
 uint8_t brightness = 80;
+uint16_t storedAddress = 0;
 
 void setup(){
+
+    EEPROM.get(storedAddress, brightness);
+
+    if (brightness < 5 || brightness > 120) {
+        brightness = 80;
+        EEPROM.put(storedAddress, brightness);
+    }
     
     Serial.begin(115200);
 
@@ -69,6 +77,7 @@ void loop() {
                     case Mode::TicTacToe:
                         nextMode = Mode::Maze;
                         mode = Mode::Banner;
+                        mazeVars.level = 0;
                         mazeVars.init();
                         bannerVars.counter = 0;
                         break;
