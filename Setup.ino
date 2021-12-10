@@ -37,7 +37,6 @@ void loop_Setup() {
        trellis.setBrightness(brightness);
 
    }
-Serial.println(brightness);
 
     delay(40);
 

@@ -111,32 +111,6 @@ void generateMaze(){
 
 }
 
-
-void drawMazeSerial(){
-
-    uint8_t i, j;
-    bool dot;
-
-    for(j=0;j<=mazeVars.mazeHeight;j++){
-        for(i=0;i<=mazeVars.mazeWidth;i++){
-    
-            dot=readPixel(i,j);
-    
-            if (dot) {
-                Serial.print("X");
-            }
-            else{
-                Serial.print("-");
-            }
-        }
-    
-        Serial.println();
-    
-    }  
-
-}
-
-
 void loop_Maze(uint8_t key) {
 
     switch (mazeVars.mode) {
@@ -144,7 +118,7 @@ void loop_Maze(uint8_t key) {
         case Mode_Maze::Init:
 
             generateMaze();
-            drawMazeSerial();
+            printMazeSerial();
             mazeVars.mode = Mode_Maze::Play;
             drawMaze();
             [[fallthrough]]
@@ -232,7 +206,7 @@ void controls(uint8_t key){
 
 
 void printMazeSerial() { 
-
+    /*
     Serial.print("printMazeSerial ");
     Serial.print(mazeVars.xPos);
     Serial.print(",");
@@ -258,6 +232,7 @@ void printMazeSerial() {
         Serial.println();
     }  
     Serial.println();
+    */
 }
 
 void clearTrellis() {

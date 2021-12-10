@@ -24,7 +24,7 @@ void setup(){
         EEPROM.put(storedAddress, brightness);
     }
     
-    Serial.begin(115200);
+    //Serial.begin(115200);
 
     trellis.begin();
     trellis.setBrightness(brightness);
