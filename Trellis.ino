@@ -2,22 +2,24 @@
 #include "Keyboard.h"
 #include "Enums.h"
 
-#define BRIGHTNESS 80
 
 Adafruit_NeoTrellisM4 trellis = Adafruit_NeoTrellisM4();
 RGB lit_keys[32];
 TicTacToe ticTacToeVars;
 Banner bannerVars;
+Maze mazeVars;
 
-Mode mode = Mode::Photoshop;
+Mode mode = Mode::Startup; 
 Mode nextMode = Mode::Photoshop;
 uint8_t key = 255;
+uint8_t brightness = 80;
 
 void setup(){
-    //Serial.begin(115200);
+    
+    Serial.begin(115200);
 
     trellis.begin();
-    trellis.setBrightness(BRIGHTNESS);
+    trellis.setBrightness(brightness);
 
 
     for (int i=0; i<trellis.num_keys(); i++) {
@@ -27,7 +29,9 @@ void setup(){
     }
 
     Keyboard.begin();
-  
+    bannerVars.counter = 255;
+
+
 }
   
 void loop() {
@@ -49,6 +53,12 @@ void loop() {
 
                 switch (mode) {
 
+                    case Mode::Setup:
+                        nextMode = Mode::Photoshop;
+                        mode = Mode::Banner;
+                        bannerVars.counter = 0;
+                        break;
+
                     case Mode::Photoshop:
                         ticTacToeVars.gameMode = Mode_TicTacToe::Selection;
                         nextMode = Mode::TicTacToe;
@@ -57,20 +67,23 @@ void loop() {
                         break;
 
                     case Mode::TicTacToe:
-                        nextMode = Mode::Photoshop;
+                        nextMode = Mode::Maze;
+                        mode = Mode::Banner;
+                        mazeVars.init();
+                        bannerVars.counter = 0;
+                        break;
+
+                    case Mode::Maze:
+                        nextMode = Mode::Setup;
                         mode = Mode::Banner;
                         bannerVars.counter = 0;
                         break;
 
+                    default: break;
+
                 }
 
             }
-
-            // lit_keys[key].r = random(0, 16);
-            // lit_keys[key].g = random(0, 16);
-            // lit_keys[key].b = random(0, 16);
-
-            // trellis.setPixelColor(key, lit_keys[key].getColorCode());
 
         }
 
@@ -80,6 +93,14 @@ void loop() {
     // Do stuff!
 
     switch (mode) {
+
+        case Mode::Startup:
+            loop_Startup();
+            break;
+
+        case Mode::Setup:
+            loop_Setup();
+            break;
 
         case Mode::Banner:
             loop_Banner();
@@ -91,6 +112,10 @@ void loop() {
 
         case Mode::TicTacToe:
             loop_TicTacToe(key);
+            break;
+
+        case Mode::Maze:
+            loop_Maze(key);
             break;
 
     }
