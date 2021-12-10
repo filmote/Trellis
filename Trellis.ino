@@ -120,7 +120,7 @@ void loop() {
             break;
 
         case Mode::TicTacToe:
-            loop_TicTacToe(key);
+            loop_TicTacToe();
             break;
 
         case Mode::Maze:

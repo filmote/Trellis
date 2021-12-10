@@ -37,6 +37,7 @@
                 "/Users/simonholmes/Library/Arduino15/packages/adafruit/hardware/samd/1.7.5/libraries/SPI",
                 "/Users/simonholmes/Documents/Arduino/libraries/Keyboard/src",
                 "/Users/simonholmes/Library/Arduino15/packages/adafruit/hardware/samd/1.7.5/libraries/HID",
+                "/Users/simonholmes/Documents/Arduino/libraries/FlashStorage_SAMD/src",
                 "/Users/simonholmes/Library/Arduino15/packages/adafruit/tools/arm-none-eabi-gcc/9-2019q4/arm-none-eabi/include/c++/9.2.1",
                 "/Users/simonholmes/Library/Arduino15/packages/adafruit/tools/arm-none-eabi-gcc/9-2019q4/arm-none-eabi/include/c++/9.2.1/arm-none-eabi",
                 "/Users/simonholmes/Library/Arduino15/packages/adafruit/tools/arm-none-eabi-gcc/9-2019q4/arm-none-eabi/include/c++/9.2.1/backward",

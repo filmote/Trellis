@@ -68,10 +68,30 @@ void loop_Photoshop(uint8_t key) {
 
     }
 
-    lit_keys[key].r = random(0, 16);
-    lit_keys[key].g = random(0, 16);
-    lit_keys[key].b = random(0, 16);
+    if (key != 255) {
 
-    trellis.setPixelColor(key, lit_keys[key].getColorCode());
+        lit_keys[key].r = random(0, 16) * 4;
+        lit_keys[key].g = random(0, 16) * 4;
+        lit_keys[key].b = random(0, 16) * 4;
+        trellis.setPixelColor(key, lit_keys[key].getColorCode());
+
+    }
+
+
+    // Fade out keys ..
+
+    for (uint8_t i = 0; i < 32; i++) {
+
+        if (i != key && lit_keys[i].getColorCode() > 0) {
+
+            if (lit_keys[i].r > 0) lit_keys[i].r--;
+            if (lit_keys[i].g > 0) lit_keys[i].g--;
+            if (lit_keys[i].b > 0) lit_keys[i].b--;
+
+            trellis.setPixelColor(i, lit_keys[i].getColorCode());
+
+        }
+
+    }
 
 }

@@ -136,7 +136,7 @@ void clearBoard() {
 
 // ---------------------------------------------------------------------------------------------
 
-void loop_TicTacToe(uint8_t key) {
+void loop_TicTacToe() {
 
     if (ticTacToeVars.gameMode == Mode_TicTacToe::Selection) {
         ticTacToeVars.reset();

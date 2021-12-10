@@ -139,8 +139,6 @@ void drawMazeSerial(){
 
 void loop_Maze(uint8_t key) {
 
-    bool wall;
-
     switch (mazeVars.mode) {
 
         case Mode_Maze::Init:
@@ -280,36 +278,19 @@ void drawMaze(){
     int16_t xStart = (mazeVars.xPos - 4);
     int16_t yStart = (mazeVars.yPos - 1);
 
-    uint8_t xOffset, yOffset;
-    Serial.print("mazeVars.xPos: ");
-    Serial.print(mazeVars.xPos);
-    Serial.print(", mazeVars.yPos: ");
-    Serial.print(mazeVars.yPos);
-    Serial.print(", xStart: ");
-    Serial.print(xStart);
-    Serial.print(", yStart: ");
-    Serial.print(yStart);
-
     if (xStart < 0) {
-        xOffset = -xStart;
         xStart = 0;
     }
     else  if (xStart >= mazeVars.mazeWidth - 8) {
-        xOffset = mazeVars.mazeWidth - xStart;
         xStart = mazeVars.mazeWidth - 8;
     }
-    Serial.print(", xStart: ");
-    Serial.print(xStart);
+
     if (yStart < 0) {
-        yOffset = -yStart;
         yStart = 0;
     }
     else  if (yStart >= mazeVars.mazeHeight - 3) {
-        yOffset = mazeVars.mazeHeight - yStart;
         yStart = mazeVars.mazeHeight - 3;
     }
-    Serial.print(", yStart: ");
-    Serial.println(yStart);
 
     uint8_t x, y;
     uint8_t i = 0;

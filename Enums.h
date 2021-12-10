@@ -203,7 +203,7 @@ struct RGB {
 
     uint32_t getColorCode() {
 
-        return r * 256 * 256 * 4 + g * 256 * 4 + b * 4;
+        return r * 256 * 256 + g * 256 + b;
 
     }
 
